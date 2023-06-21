@@ -6,17 +6,34 @@ superjob_api = SuperJobAPI()
 
 
 def user_interaction():
+    """ Функция для взаимодействия с пользователем через консоль"""
+
     filter_vacancies = str(input('Введите ключевое слово для фильтрации вакансий: '))
     platform_selection = input('Выберите платформу для поиска вакансий: 1 = "HeadHunter" или 2 = "SuperJob": ')
     print("Загрузка вакансий...")
     if platform_selection == '1':
-        vacancies_hh = hh_api.get_vacancies(filter_vacancies)
-        for vacancies in vacancies_hh:
+        vacancies_from_head_hunter = hh_api.get_vacancies(filter_vacancies)
+        list_count = []
+        for vacancies in vacancies_from_head_hunter:
+
+            json_save = Json_server('vacancies_from_head_hunter.json') # сохранение вакансий в json файл
+            json_save.insert_vacancies(vacancies_from_head_hunter)
+
+            list_count.append(vacancies)
             print(vacancies)
+
+        print(f"Предсталено {len(list_count)} вакансий!")
     elif platform_selection == '2':
-        vacancies_sj = superjob_api.get_vacancies(filter_vacancies)
-        for vacancies in vacancies_sj:
+        vacancies_from_super_job = superjob_api.get_vacancies(filter_vacancies)
+        list_count = []
+        for vacancies in vacancies_from_super_job:
+
+            json_save = Json_server('vacancies_from_super_job.json') # сохранение вакансий в json файл
+            json_save.insert_vacancies(vacancies_from_super_job)
+
+            list_count.append(vacancies)
             print(vacancies)
+        print(f"Предсталено {len(list_count)} вакансий!")
     else:
         print("Эта платформа не представлена в списке доступных!")
 
@@ -24,23 +41,3 @@ def user_interaction():
 if __name__ == "__main__":
     user_interaction()
 
-# hh_api = HeadHunterAPI()
-# vacansies = hh_api.get_vacancies('python')
-# for vacancy in vacansies:
-#     print(vacancy)
-# json_save = Json_server('vacansis.json')
-# json_save.insert_vacansies(vacansies)
-
-#
-# superjob_api = SuperJobAPI()
-# vacancies = superjob_api.get_vacancies('Python')
-# for vacancy in vacancies:
-#     print(vacancy)
-#
-# json_save = Json_server('vacancies.json')
-# json_save.insert_vacansies(vacancies)
-#
-#
-#
-#
-#

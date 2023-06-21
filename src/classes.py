@@ -1,9 +1,6 @@
 from abc import ABC, abstractmethod
-import json
 from src.vacancy import Vacancy
 import requests
-import pprint
-from src.Json_vacansies import Json_server
 
 
 class Engine(ABC):
@@ -24,14 +21,13 @@ class HeadHunterAPI(Engine):
     """
 
     def get_requests(self, text):
-        # headers = {"User-Agent": "Vacancies_ParserApp/1.0"}
-        headers = {"User-Agent": "MyApp/1.0"}
         params = {
-            "text": text.lower(),
-            "area": 1
+            "keyword": text.lower(),
+            "page": 5,
+            "count": 100
         }
         url = "https://api.hh.ru/vacancies"
-        response_hh = requests.get(url, headers=headers, params=params)
+        response_hh = requests.get(url, params=params)
         return response_hh
 
     def get_vacancies(self, text: str):
@@ -48,7 +44,6 @@ class HeadHunterAPI(Engine):
             else:
                 salary_min = None
                 salary_max = None
-            #description = vacancy['name']
             vacancies_hh.append(Vacancy(name, url, salary_min, salary_max))
         return vacancies_hh
 
@@ -63,9 +58,9 @@ class SuperJobAPI(Engine):
             "X-Api-App-Id": 'v3.r.131353004.e21dd97ef97560b801e7271bf8905da1c7a47507.49f112449b3e8ab49b088918966d1feb87cbac16'
         }
         params = {
-            "text": text.lower(),
-            # "area": 2,
-            # "town": 5
+            "keyword": text.lower(),
+            "page": 5,
+            "count": 100
         }
         url = "https://api.superjob.ru/2.0/vacancies/"
 
@@ -74,12 +69,6 @@ class SuperJobAPI(Engine):
 
     def get_vacancies(self, text: str):
         data = self.get_requests(text).json()['objects']
-        # d = []
-        # for i in data:
-        #     print(i)
-        #     d.append(i)
-        #     print("---------")
-        # print(len(d))
 
         vacancies_sj = []
 
