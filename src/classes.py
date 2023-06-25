@@ -22,9 +22,9 @@ class HeadHunterAPI(Engine):
 
     def get_requests(self, text):
         params = {
-            "keyword": text.lower(),
+            "text": text.lower(),
             "page": 5,
-            "count": 100
+            "per_page": 100
         }
         url = "https://api.hh.ru/vacancies"
         response_hh = requests.get(url, params=params)
