@@ -1,4 +1,3 @@
-import json
 
 from src.Json_vacansies import Json_server
 from src.classes import HeadHunterAPI, SuperJobAPI
@@ -28,12 +27,14 @@ def user_interaction():
             print(vacancies)
 
         print(f"Предсталено {len(list_count)} вакансий!")
+        print("")
 
         print("Если хотите отсортировать данные по зарплате и вывести топ 5 вакансий нажмите: 1, если нет: 2")
         user_input = int(input())
         if user_input == 1:
-            filtered_data = filtered_vacancies_by_salary('vacancies_from_head_hunter.json')
-            print(filtered_data)
+            filtered_data = filtered_vacancies_by_salary('src/vacancies_from_head_hunter.json')
+            for vacancy in filtered_data:
+                print(vacancy)
         else:
             return
 
@@ -48,12 +49,14 @@ def user_interaction():
             list_count.append(vacancies)
             print(vacancies)
         print(f"Предсталено {len(list_count)} вакансий!")
+        print("")
 
         print("Если хотите отсортировать данные по зарплате и вывести топ 5 вакансий нажмите: 1, если нет: 2")
         user_input = int(input())
         if user_input == 1:
-            filtered_data = filtered_vacancies_by_salary('vacancies_from_super_job.json')
-            print(filtered_data)
+            filtered_data = filtered_vacancies_by_salary('src/vacancies_from_super_job.json')
+            for vacancy in filtered_data:
+                print(vacancy)
         else:
             return
     else:

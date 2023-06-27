@@ -1,4 +1,5 @@
 import json
+from src.vacancy import Vacancy
 
 
 def filtered_vacancies_by_salary(file_path):
@@ -10,19 +11,22 @@ def filtered_vacancies_by_salary(file_path):
             reverse=True
         )
 
-        return filtered_data[:5]
+        top_5_vacancies = filtered_data[:5]
+        top_5_vacancies_filter = []
+
+        for i, vacancy in enumerate(top_5_vacancies, start=1):
+
+            name = vacancy['title']
+            url = vacancy['url']
+            salary_min = vacancy['salary_min']
+            salary_max = vacancy['salary_max']
+
+            top_5_vacancies_filter.append(f"Топ {i} вакансия: зарплата = {vacancy['salary_max']}!")
+            top_5_vacancies_filter.append(Vacancy(name, url, salary_min, salary_max))
+
+        return top_5_vacancies_filter
 
 
-# print(filtered_vacancies_by_salary())
-#
-# json_file_path = "vacancies_from_head_hunter.json"
-# filtered_data = filtered_vacancies_by_salary(json_file_path)
 
 
-# count_list = 0
-#
-# for item in filtered_data:
-#     print(item['salary_max'])
-#     count_list += 1
-#
-# print(f"количество вакансий: {count_list}")
+
